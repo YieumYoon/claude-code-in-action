@@ -96,6 +96,7 @@ The AI uses custom tools to manipulate the virtual file system:
 - Vitest for unit tests
 - Testing Library for React component tests
 - Tests located in `__tests__` directories alongside components
+- Vitest config is in vitest.config.mts
 
 ## Best Practices
 
