@@ -15,18 +15,34 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
   if (messages.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] px-4 text-center">
-        <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-50 mb-4 shadow-sm">
-          <Bot className="h-7 w-7 text-blue-600" />
+        <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 mb-6 shadow-lg border border-blue-100">
+          <Bot className="h-8 w-8 text-blue-600" />
         </div>
-        <p className="text-neutral-900 font-semibold text-lg mb-2">Start a conversation to generate React components</p>
-        <p className="text-neutral-500 text-sm max-w-sm">I can help you create buttons, forms, cards, and more</p>
+        <h2 className="text-neutral-900 font-bold text-xl mb-3">Start building with AI</h2>
+        <p className="text-neutral-600 text-base max-w-md leading-relaxed">
+          Describe what you want to create and I'll generate React components for you
+        </p>
+        <div className="flex flex-wrap gap-2 mt-6 text-sm">
+          <span className="px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full border border-blue-200">
+            Buttons
+          </span>
+          <span className="px-3 py-1.5 bg-green-50 text-green-700 rounded-full border border-green-200">
+            Forms
+          </span>
+          <span className="px-3 py-1.5 bg-purple-50 text-purple-700 rounded-full border border-purple-200">
+            Cards
+          </span>
+          <span className="px-3 py-1.5 bg-orange-50 text-orange-700 rounded-full border border-orange-200">
+            Layouts
+          </span>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-full overflow-y-auto px-4 py-6">
-      <div className="space-y-6 max-w-4xl mx-auto w-full">
+    <div className="flex flex-col h-full overflow-y-auto px-4 py-6 bg-gradient-to-b from-neutral-50/30 to-white">
+      <div className="space-y-8 max-w-4xl mx-auto w-full">
         {messages.map((message) => (
           <div
             key={message.id || message.content}
@@ -37,8 +53,8 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
           >
             {message.role === "assistant" && (
               <div className="flex-shrink-0">
-                <div className="w-9 h-9 rounded-lg bg-white border border-neutral-200 shadow-sm flex items-center justify-center">
-                  <Bot className="h-4.5 w-4.5 text-neutral-700" />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 shadow-md flex items-center justify-center">
+                  <Bot className="h-5 w-5 text-blue-600" />
                 </div>
               </div>
             )}
@@ -48,10 +64,10 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
               message.role === "user" ? "items-end" : "items-start"
             )}>
               <div className={cn(
-                "rounded-xl px-4 py-3",
+                "rounded-2xl px-5 py-4",
                 message.role === "user" 
-                  ? "bg-blue-600 text-white shadow-sm" 
-                  : "bg-white text-neutral-900 border border-neutral-200 shadow-sm"
+                  ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg" 
+                  : "bg-white text-neutral-900 border border-neutral-200 shadow-lg backdrop-blur-sm"
               )}>
                 <div className="text-sm">
                   {message.parts ? (
@@ -70,9 +86,9 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
                             );
                           case "reasoning":
                             return (
-                              <div key={partIndex} className="mt-3 p-3 bg-white/50 rounded-md border border-neutral-200">
-                                <span className="text-xs font-medium text-neutral-600 block mb-1">Reasoning</span>
-                                <span className="text-sm text-neutral-700">{part.reasoning}</span>
+                              <div key={partIndex} className="mt-4 p-4 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-xl border border-amber-200">
+                                <span className="text-xs font-semibold text-amber-700 block mb-2 uppercase tracking-wider">Reasoning</span>
+                                <span className="text-sm text-amber-800 leading-relaxed">{part.reasoning}</span>
                               </div>
                             );
                           case "tool-invocation":
@@ -89,7 +105,7 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
                               </div>
                             );
                           case "step-start":
-                            return partIndex > 0 ? <hr key={partIndex} className="my-3 border-neutral-200" /> : null;
+                            return partIndex > 0 ? <hr key={partIndex} className="my-4 border-neutral-300 border-dashed" /> : null;
                           default:
                             return null;
                         }
@@ -97,9 +113,9 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
                       {isLoading &&
                         message.role === "assistant" &&
                         messages.indexOf(message) === messages.length - 1 && (
-                          <div className="flex items-center gap-2 mt-3 text-neutral-500">
-                            <Loader2 className="h-3 w-3 animate-spin" />
-                            <span className="text-sm">Generating...</span>
+                          <div className="flex items-center gap-3 mt-4 px-3 py-2 bg-blue-50 rounded-lg border border-blue-200">
+                            <Loader2 className="h-4 w-4 animate-spin text-blue-600" />
+                            <span className="text-sm text-blue-700 font-medium">Generating response...</span>
                           </div>
                         )}
                     </>
@@ -112,9 +128,9 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
                   ) : isLoading &&
                     message.role === "assistant" &&
                     messages.indexOf(message) === messages.length - 1 ? (
-                    <div className="flex items-center gap-2 text-neutral-500">
-                      <Loader2 className="h-3 w-3 animate-spin" />
-                      <span className="text-sm">Generating...</span>
+                    <div className="flex items-center gap-3 px-3 py-2 bg-blue-50 rounded-lg border border-blue-200">
+                      <Loader2 className="h-4 w-4 animate-spin text-blue-600" />
+                      <span className="text-sm text-blue-700 font-medium">Generating response...</span>
                     </div>
                   ) : null}
                 </div>
@@ -123,8 +139,8 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
             
             {message.role === "user" && (
               <div className="flex-shrink-0">
-                <div className="w-9 h-9 rounded-lg bg-blue-600 shadow-sm flex items-center justify-center">
-                  <User className="h-4.5 w-4.5 text-white" />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 shadow-lg flex items-center justify-center">
+                  <User className="h-5 w-5 text-white" />
                 </div>
               </div>
             )}
